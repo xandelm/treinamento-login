@@ -2,15 +2,15 @@ function login() {
     const email = document.getElementById('login').value;
     if(!isEmail(email)) {
         const msg = 'Endereço de email inválido'
-        throw new Error(msg);
         alert(msg);
+        throw new Error(msg);
     }
     const senha = document.getElementById('senha').value;
     const chaoSenha = 5, tetoSenha = 25;
     if(!passwordInRange(senha.length,chaoSenha,tetoSenha)){
         const msg = `Digite uma senha entre ${chaoSenha} e ${tetoSenha}`;
-        throw new Error(msg);
         alert(msg);
+        throw new Error(msg);
     } 
 
     //TODO:controle de entrada
