@@ -17,6 +17,10 @@ class Imagem {
     }
 }
 
+/**
+ * Renderiza uma imagem no documento 
+ * @param {Imagem} imagem 
+ */
 function loadImage(imagem){
     const imgElement = document.createElement('img');
     imgElement.src = imagem.src;
