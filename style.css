@@ -61,4 +61,5 @@ div#images-container {
 
 div#imagem {
     border: 2rem solid var(--beige);
+    margin: 2rem;
 }
