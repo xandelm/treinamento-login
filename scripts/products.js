@@ -15,32 +15,31 @@
 
 
 
-function isProduct(produto) {
-    return (produto instanceof Produto);
-}
+// function isProduct(produto) {
+//     return (produto instanceof Produto);
+// }
 
 
 /**
  * Adiciona um Produto no LocalStorage
- * @param {Produto} produto o prod a ser adicionado 
+ * @param {object} produto o prod a ser adicionado
  * @returns {boolean} true caso seja adicionado. false se não.
  */
 function addProduto(produto) {
-    if(!(isProduct(produto))) return false;
-    produto.datasModificação.push(Date.now);
     let produtoJson = JSON.stringify(produto);
     try{
-        localStorage.setItem('id','produtoJson');
+        localStorage.setItem(produto.id,produtoJson);
         return true;
     }
     catch(e){
         console.log('Erro ao adicionar produto: '+ e.message);
+        alert('Erro ao add prod')
     }
 }
 
 
 function delProduto(produto) {
-    if(!(isProduct(produto))) return false;
+    // if(!(isProduct(produto))) return false;
     localStorage.removeItem(produto.id);
 }
 
@@ -72,6 +71,31 @@ function loadProdutos(produtos) {
     });
 }
 
+
+function mapProduto(){
+    const urlElement = document.getElementById('URLImagem');
+    const nomeElement = document.getElementById('productName');
+    const categoriaElement = document.getElementById('productCategoria');
+    const quantidadeElement = document.getElementById('productQuantidade');
+    const  precoElement= document.getElementById('productPreco');
+
+    const novoProduto = {
+        id: 0, //TODO: implementar id incremental
+        src:urlElement.value,
+        nome: nomeElement.value,
+        categoria: categoriaElement.value,
+        quantidade: quantidadeElement.value,
+        preco: precoElement.value,
+        dataCriacao : Date.now(),
+        datasModificacao: new Date()
+    };
+    addProduto(novoProduto);
+
+}
+
+
+
+
 const arrayDeProdutos = [
     { id: 0, src: "https://picsum.photos/200/300?random=1", nome: 'Produto 1', categoria: 'Eletrônicos', quantidade: 5, preco: 99.99 },
     { id: 1, src: "https://picsum.photos/200/300?random=2", nome: 'Produto 2', categoria: 'Roupas', quantidade: 10, preco: 49.99 },
@@ -79,10 +103,10 @@ const arrayDeProdutos = [
 ];
 
 
+document.getElementById('addProduct').onclick = mapProduto; //?
+
 loadProdutos(arrayDeProdutos);
 
-
-document.getElementById('btn-add-prod').onclick = addProduto;
 
 
 

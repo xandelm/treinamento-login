@@ -10,7 +10,6 @@
   <link href="css/modal.css" rel="stylesheet" type="text/css" />
 
 
-
 </head>
 
 <body class="productsPage">
@@ -19,6 +18,8 @@
     <div style="padding: 2rem; margin-bottom: 3rem">
       <label class="btn" for="modal-1">Adicionar novo produto</label>
     </div>
+
+    <div id="produtos"></div>
 
     <input class="modal-state" id="modal-1" type="checkbox" />
     <div class="modal">
@@ -32,10 +33,10 @@
           <input type="text" id="productCategoria" placeholder="Categoria">
           <input type="text" id="productQuantidade" placeholder="Quantidade Disponível">
           <input type="number" id="productPreco" placeholder="Preço">
-          <button style="flex-shrink: initial; max-width: fit-content">Adicionar</button>
+          <button id="addProduct" style="flex-shrink: initial; max-width: fit-content">Adicionar</button>
       </div>
     </div>
-    <div id="produtos"></div>
+    <div id="btn-add-prod"></div>
   </div>
 </body>
 </html>
