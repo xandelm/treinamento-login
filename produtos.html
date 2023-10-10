@@ -6,19 +6,36 @@
   <meta name="viewport" content="width=device-width">
   <title>Produtos</title>
   <script src="scripts/products.js" defer></script>
-  <link href="style.css" rel="stylesheet" type="text/css" />
-  
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link href="css/modal.css" rel="stylesheet" type="text/css" />
+
+
+
 </head>
 
 <body class="productsPage">
-      <div id='images-container '>
-      <h2>Produtos</h2>
-      <div id="imagem"></div>
+  <div id="produtos-card">
+    <h1>Produtos</h1>
+    <div style="padding: 2rem; margin-bottom: 3rem">
+      <label class="btn" for="modal-1">Adicionar novo produto</label>
     </div>
+
+    <input class="modal-state" id="modal-1" type="checkbox" />
+    <div class="modal">
+      <label class="modal__bg" for="modal-1"></label>
+      <div class="modal__inner" style="display: flex; flex-direction: column">
+        <label class="modal__close" for="modal-1"></label>
+        <h2>Adicionar produto</h2>
+<!--        <p><img src="https://i.imgur.com/HnrkBwB.gif" alt="" />Aliquam in sagittis nulla. Curabitur euismod diam eget risus venenatis, sed dictum lectus bibendum. Nunc nunc nisi, hendrerit eget nisi id, rhoncus rutrum velit. Nunc vel mauris dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fringilla quis nisi eget imperdiet.</p>-->
+          <input type="url" id="URLImagem" placeholder="URL imagem">
+          <input type="text" id="productName" placeholder="Nome do Produto">
+          <input type="text" id="productCategoria" placeholder="Categoria">
+          <input type="text" id="productQuantidade" placeholder="Quantidade Disponível">
+          <input type="number" id="productPreco" placeholder="Preço">
+          <button style="flex-shrink: initial; max-width: fit-content">Adicionar</button>
+      </div>
+    </div>
+    <div id="produtos"></div>
+  </div>
 </body>
 </html>
-
-<!-- 
-Revisar o gallery.html para display: nome, id(buscado no API do picsum)
-
--->

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d4bd2ad1-9d36-4530-bed7-555b6c1334e4" name="local1" url="http://localhost">
+        <fileTransfer mountedRoot="C:\Users\Xande\OneDrive\Documentos\Vscode Projects\BraSign\LoginApp" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

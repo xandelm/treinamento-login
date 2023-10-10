@@ -2,7 +2,7 @@
  * Imagem representa uma imagem que será por padrão aleatória.
  * @constructor recebe um id para gerar uma imagem aleatória.
  */
-class Imagem {
+export class Imagem {
     constructor(id) {
         this.id = id;
         this.src = `https://picsum.photos/200/300?random=${id}`;

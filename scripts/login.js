@@ -27,7 +27,7 @@ function login() {
  * @param {number} senhaLength tamanho senha
  * @param {number} chaoSenha tamanho minimo da senha
  * @param {number} tetoSenha tamanho máximo da senha
- * @returns {Bool}   //true se a senha está entre o alcance definido. false se não.
+ * @returns {boolean}   //true se a senha está entre o alcance definido. false se não.
  */
 function passwordInRange(senhaLength,chaoSenha,tetoSenha){
     return(senhaLength >= chaoSenha && senhaLength<=tetoSenha);
@@ -36,14 +36,15 @@ function passwordInRange(senhaLength,chaoSenha,tetoSenha){
 /**
  * checa se o parâmetro é um email válido 
  * @param {string} email possível email 
- * @returns {Bool} true se for email válido. false se não.
+ * @returns {boolean} true se for email válido. false se não.
  */
 function isEmail(email){
-    return String(email)
+    return !!String(email)
         .toLowerCase()
         .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        ); //expressao regular para checagem de email
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    //expressao regular para checagem de email
 }
 
 
