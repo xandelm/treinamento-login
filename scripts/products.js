@@ -26,23 +26,37 @@
  * @returns {boolean} true caso seja adicionado. false se não.
  */
 function addProduto(produto) {
-    let produtoJson = JSON.stringify(produto);
     try{
-        localStorage.setItem(produto.id,produtoJson);
+        let produtoJson = JSON.stringify(produto);
+        const allProducts = localStorage.getItem('products');
+        let arrayProducts = [...[allProducts],produtoJson]; //appending with spread synthax
+        localStorage.setItem('products', JSON.stringify(arrayProducts));
+        console.log('Produtos: '+JSON.stringify(arrayProducts)); //teste
+        alert('Produto Adicionado');
         return true;
     }
     catch(e){
         console.log('Erro ao adicionar produto: '+ e.message);
-        alert('Erro ao add prod')
+        alert('Erro ao add prod');
     }
 }
 
 
 function delProduto(produto) {
-    // if(!(isProduct(produto))) return false;
-    localStorage.removeItem(produto.id);
+    try{
+        let produtoJson = JSON.stringify(produto);
+        let allProducts = localStorage.getItem('products');
+        if(!allProducts.includes(produtoJson)) console.log('Não existe!');
+        allProducts.replace(produtoJson, '');
+        //precisa deletar? localStorage.remove
+        localStorage.setItem('products', allProducts);
+    } catch (e){
+        console.log('Erro:' +e.message);
+    }
 }
 
+function alterarProduto(produto){
+}
 
 //TODO: function (listarProduto): ja feita em renderProdutos
 //TODO: function (listarDetalhesProduto)
@@ -63,6 +77,7 @@ function loadProdutos(produtos) {
           <p><strong>Categoria:</strong> ${produto.categoria}</p>
           <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
           <p><strong>Preço:</strong> $${produto.preco.toFixed(2)}</p>
+          <button id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
         `;
 
         produtoDiv.innerHTML = conteudoProduto;
@@ -86,11 +101,10 @@ function mapProduto(){
         categoria: categoriaElement.value,
         quantidade: quantidadeElement.value,
         preco: precoElement.value,
-        dataCriacao : Date.now(),
-        datasModificacao: new Date()
+        dataCriacao : new Date(),
+        datasModificacao: []
     };
     addProduto(novoProduto);
-
 }
 
 
@@ -103,7 +117,7 @@ const arrayDeProdutos = [
 ];
 
 
-document.getElementById('addProduct').onclick = mapProduto; //?
+document.getElementById('addProduct').onclick = mapProduto;
 
 loadProdutos(arrayDeProdutos);
 
