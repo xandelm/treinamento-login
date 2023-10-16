@@ -25,6 +25,9 @@
  * @param {object} produto o prod a ser adicionado
  * @returns {boolean} true caso seja adicionado. false se não.
  */
+
+
+
 function addProduto(produto) {
     try{
         let produtoJson = JSON.stringify(produto);
@@ -40,6 +43,12 @@ function addProduto(produto) {
         alert('Erro ao add prod');
     }
 }
+
+function getLocalStorageProducts(){
+    const allProducts = localStorage.getItem('products');
+    return JSON.parse(allProducts);
+}
+
 
 
 function delProduto(produto) {
@@ -123,6 +132,8 @@ function mapProduto(){
     };
     addProduto(novoProduto);
 }
+
+
 
 
 
