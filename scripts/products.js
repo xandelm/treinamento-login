@@ -49,7 +49,9 @@ function getLocalStorageProducts(){
     return JSON.parse(allProducts);
 }
 
-
+function saveProducts(products){
+    localStorage.setItem('products', JSON.stringify(products));
+}
 
 function delProduto(produto) {
     try{
