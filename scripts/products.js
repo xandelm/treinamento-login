@@ -52,7 +52,15 @@ function getLocalStorageProducts(){
 function saveProducts(products){
     localStorage.setItem('products', JSON.stringify(products));
 }
-
+function AlterProduct(productID, produtoAlterado){
+    const allProducts = getLocalStorageProducts();
+    let arrayProducts = Object.entries(allProducts);
+    let produtoIndex = arrayProducts.findIndex(produtoAlterado);
+    if(produtoIndex !== -1){
+        arrayProducts[produtoIndex] = produtoAlterado;
+        saveProducts(arrayProducts);
+    }
+}
 function delProduto(produto) {
     try{
         let produtoJson = JSON.stringify(produto);
