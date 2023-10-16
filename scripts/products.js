@@ -55,8 +55,6 @@ function delProduto(produto) {
     }
 }
 
-function alterarProduto(produto){
-}
 
 //TODO: function (listarProduto): ja feita em renderProdutos
 //TODO: function (listarDetalhesProduto)
@@ -77,13 +75,33 @@ function loadProdutos(produtos) {
           <p><strong>Categoria:</strong> ${produto.categoria}</p>
           <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
           <p><strong>Preço:</strong> $${produto.preco.toFixed(2)}</p>
-          <button id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
+          <button onclick="alterarProduto(${produto})" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
         `;
 
         produtoDiv.innerHTML = conteudoProduto;
 
+
         produtosDiv.appendChild(produtoDiv);
     });
+}
+function alterarProduto(produto) {
+    const modal = document.createElement('div');
+    modal.classList.add('modalContent');
+    modal.id = 'modalContent';
+    modal.hidden = false; // Display the modal
+
+    modal.innerHTML = `
+        <div class="modalContent">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2>Detalhes do Produto</h2>
+            <p><strong>Nome:</strong> ${produto.nome}</p>
+            <p><strong>Categoria:</strong> ${produto.categoria}</p>
+            <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
+            <p><strong>Preço:</strong> $${produto.preco.toFixed(2)}</p>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
 }
 
 
@@ -95,7 +113,6 @@ function mapProduto(){
     const  precoElement= document.getElementById('productPreco');
 
     const novoProduto = {
-        id: 0, //TODO: implementar id incremental
         src:urlElement.value,
         nome: nomeElement.value,
         categoria: categoriaElement.value,
