@@ -1,76 +1,94 @@
-// class Produto {
-//     static idCounter = 0;
-//     constructor(imagem,nome,categoria,quantidade){
-//         //TODO: validar dados. talvez criar uma função recebendo os parâmetros, ou validar apenas quando criar novo produto
-//         idCounter++;
-//         this.id = idCounter;
-//         this.imagem = imagem;
-//         this.nome = nome;
-//         this.categoria = categoria;
-//         this.quantidade = quantidade;
-//         this.dataCriação = Date.now;
-//         this.datasModificação = new Array();
-//     }
-// }
+function pushNotify(msg) {
+    new Notify({
+        status: 'success',
+        title: 'Sucesso',
+        text: `${msg}`,
+        effect: 'fade',
+        speed: 300,
+        customClass: null,
+        customIcon: null,
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: false,
+        autotimeout: 3000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: 'right top'
+    })
+}
 
-
-
-// function isProduct(produto) {
-//     return (produto instanceof Produto);
-// }
-
-
-/**
- * Adiciona um Produto no LocalStorage
- * @param {object} produto o prod a ser adicionado
- * @returns {boolean} true caso seja adicionado. false se não.
- */
-
-
+function pushNotifyError(msg) {
+    new Notify({
+        status: 'error',
+        title: 'Erro',
+        text: `${msg}`,
+        effect: 'fade',
+        speed: 300,
+        customClass: null,
+        customIcon: null,
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: false,
+        autotimeout: 3000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: 'right top'
+    })
+}
 
 function addProduto(produto) {
-    try{
+    try {
         let produtoJson = JSON.stringify(produto);
         const allProducts = localStorage.getItem('products');
-        let arrayProducts = [...[allProducts],produtoJson]; //appending with spread synthax
+        let arrayProducts = [...[allProducts], produtoJson]; //appending with spread synthax
         localStorage.setItem('products', JSON.stringify(arrayProducts));
-        console.log('Produtos: '+JSON.stringify(arrayProducts)); //teste
+        console.log('Produtos: ' + JSON.stringify(arrayProducts)); //teste
         alert('Produto Adicionado');
+        pushNotify('Produto Adicionado');
         return true;
-    }
-    catch(e){
-        console.log('Erro ao adicionar produto: '+ e.message);
-        alert('Erro ao add prod');
+    } catch (e) {
+        console.log('Erro ao adicionar produto: ' + e.message);
+        pushNotifyError('Erro ao adicionar produto')
     }
 }
 
-function getLocalStorageProducts(){
-    const allProducts = localStorage.getItem('products');
-    return JSON.parse(allProducts);
+function getLocalStorageProducts() {
+    return JSON.parse(localStorage.getItem('products')) || [];
 }
 
-function saveProducts(products){
+function saveProducts(products) {
     localStorage.setItem('products', JSON.stringify(products));
 }
-function AlterProduct(productID, produtoAlterado){
+
+function alterProduct(productID, produtoAlterado) {
     const allProducts = getLocalStorageProducts();
     let arrayProducts = Object.entries(allProducts);
     let produtoIndex = arrayProducts.findIndex(produtoAlterado);
-    if(produtoIndex !== -1){
+    try {
         arrayProducts[produtoIndex] = produtoAlterado;
         saveProducts(arrayProducts);
+        pushNotify('Produto Alterado');
+    } catch (e) {
+        pushNotifyError(e.message);
     }
 }
+
+
+
 function delProduto(produto) {
-    try{
+    try {
         let produtoJson = JSON.stringify(produto);
         let allProducts = localStorage.getItem('products');
-        if(!allProducts.includes(produtoJson)) console.log('Não existe!');
+        if (!allProducts.includes(produtoJson)) console.log('Não existe!');
         allProducts.replace(produtoJson, '');
         //precisa deletar? localStorage.remove
         localStorage.setItem('products', allProducts);
-    } catch (e){
-        console.log('Erro:' +e.message);
+        pushNotify('Produto deletado');
+    } catch (e) {
+        console.log('Erro:' + e.message);
+        pushNotifyError(e.message);
     }
 }
 
@@ -103,6 +121,7 @@ function loadProdutos(produtos) {
         produtosDiv.appendChild(produtoDiv);
     });
 }
+
 function alterarProduto(produto) {
     const modal = document.createElement('div');
     modal.classList.add('modalContent');
@@ -124,34 +143,51 @@ function alterarProduto(produto) {
 }
 
 
-function mapProduto(){
+function mapProduto() {
     const urlElement = document.getElementById('URLImagem');
     const nomeElement = document.getElementById('productName');
     const categoriaElement = document.getElementById('productCategoria');
     const quantidadeElement = document.getElementById('productQuantidade');
-    const  precoElement= document.getElementById('productPreco');
+    const precoElement = document.getElementById('productPreco');
 
     const novoProduto = {
-        src:urlElement.value,
+        src: urlElement.value,
         nome: nomeElement.value,
         categoria: categoriaElement.value,
         quantidade: quantidadeElement.value,
         preco: precoElement.value,
-        dataCriacao : new Date(),
+        dataCriacao: new Date(),
         datasModificacao: []
     };
     addProduto(novoProduto);
 }
 
 
-
-
-
-
 const arrayDeProdutos = [
-    { id: 0, src: "https://picsum.photos/200/300?random=1", nome: 'Produto 1', categoria: 'Eletrônicos', quantidade: 5, preco: 99.99 },
-    { id: 1, src: "https://picsum.photos/200/300?random=2", nome: 'Produto 2', categoria: 'Roupas', quantidade: 10, preco: 49.99 },
-    { id: 2, src: "https://picsum.photos/200/300?random=3", nome: 'Produto 3', categoria: 'Livros', quantidade: 20, preco: 19.99 },
+    {
+        id: 0,
+        src: "https://picsum.photos/200/300?random=1",
+        nome: 'Produto 1',
+        categoria: 'Eletrônicos',
+        quantidade: 5,
+        preco: 99.99
+    },
+    {
+        id: 1,
+        src: "https://picsum.photos/200/300?random=2",
+        nome: 'Produto 2',
+        categoria: 'Roupas',
+        quantidade: 10,
+        preco: 49.99
+    },
+    {
+        id: 2,
+        src: "https://picsum.photos/200/300?random=3",
+        nome: 'Produto 3',
+        categoria: 'Livros',
+        quantidade: 20,
+        preco: 19.99
+    },
 ];
 
 
