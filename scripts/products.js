@@ -48,10 +48,11 @@ function addProduto(produto) {
         localStorage.setItem('products', JSON.stringify(arrayProducts));
         console.log('Produtos: ' + JSON.stringify(arrayProducts)); //teste
         pushNotify('Produto Adicionado');
+        //fecha o modal
+        const addProductButton = document.getElementById('addProduct');
+        addProductButton.onclick = mapProduto; //mapeia os dados do produto e chama addProduto para
+        window.location.reload() //atualiza a página para mostrar o prod adicionado
 
-        //close the modal
-
-        //
         return true;
     } catch (e) {
         console.log('Erro ao adicionar produto: ' + e.message);
@@ -184,11 +185,12 @@ function mapProduto() {
 
 
 document.getElementById('addProduct').onclick = mapProduto;
-const addProductButton = document.getElementById('addProduct');
+// addProductButton.onclick = mapProduto; //mapeia os dados do produto e chama addProduto para
 
+const addProductButton = document.getElementById('addProduct');
 addProductButton.addEventListener('click', closeModal);
 
-
+// localStorage.clear();
 loadProdutos(getLocalStorageProducts());
 
 
