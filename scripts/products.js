@@ -50,7 +50,7 @@ function addProduto(produto) {
         pushNotify('Produto Adicionado');
 
         //close the modal
-        const addProductButton = document.getElementById('addProduct');
+
         //
         return true;
     } catch (e) {
@@ -60,22 +60,11 @@ function addProduto(produto) {
     }
 }
 
-// function addProduto(produto) {
-//     try {
-//         let produtoJson = JSON.stringify(produto); //ok
-//         const allProducts = localStorage.getItem('products'); //ok
-//         let arrayProducts = allProducts ? JSON.parse(allProducts):[];
-//         arrayProducts.push(produtoJson);
-//         localStorage.setItem('products', JSON.stringify(arrayProducts)); //ok
-//         console.log('Produtos: ' + JSON.stringify(arrayProducts)); //teste
-//         pushNotify('Produto Adicionado');
-//         //quando adicionar, atualizar a página
-//         return true;
-//     } catch (e) {
-//         console.log('Erro ao adicionar produto: ' + e.message);
-//         pushNotifyError('Erro ao adicionar produto')
-//     }
-// }
+function closeModal() {
+    const modalCheckbox = document.getElementById('modal-1');
+    modalCheckbox.checked = false;
+}
+
 
 function getLocalStorageProducts() {
     //return JSON.parse(localStorage.getItem('products')) || [];
@@ -195,9 +184,12 @@ function mapProduto() {
 
 
 document.getElementById('addProduct').onclick = mapProduto;
+const addProductButton = document.getElementById('addProduct');
+
+addProductButton.addEventListener('click', closeModal);
+
 
 loadProdutos(getLocalStorageProducts());
-localStorage.clear();
 
 
 
