@@ -38,24 +38,54 @@ function pushNotifyError(msg) {
     })
 }
 
+
 function addProduto(produto) {
     try {
         let produtoJson = JSON.stringify(produto);
         const allProducts = localStorage.getItem('products');
-        let arrayProducts = [...[allProducts], produtoJson]; //appending with spread synthax
+        let arrayProducts = allProducts ? JSON.parse(allProducts) : [];
+        arrayProducts.push(produtoJson);
         localStorage.setItem('products', JSON.stringify(arrayProducts));
         console.log('Produtos: ' + JSON.stringify(arrayProducts)); //teste
-        alert('Produto Adicionado');
         pushNotify('Produto Adicionado');
+
+        //close the modal
+        const addProductButton = document.getElementById('addProduct');
+        //
         return true;
     } catch (e) {
         console.log('Erro ao adicionar produto: ' + e.message);
-        pushNotifyError('Erro ao adicionar produto')
+        pushNotifyError('Erro ao adicionar produto');
+        return false;
     }
 }
 
+// function addProduto(produto) {
+//     try {
+//         let produtoJson = JSON.stringify(produto); //ok
+//         const allProducts = localStorage.getItem('products'); //ok
+//         let arrayProducts = allProducts ? JSON.parse(allProducts):[];
+//         arrayProducts.push(produtoJson);
+//         localStorage.setItem('products', JSON.stringify(arrayProducts)); //ok
+//         console.log('Produtos: ' + JSON.stringify(arrayProducts)); //teste
+//         pushNotify('Produto Adicionado');
+//         //quando adicionar, atualizar a página
+//         return true;
+//     } catch (e) {
+//         console.log('Erro ao adicionar produto: ' + e.message);
+//         pushNotifyError('Erro ao adicionar produto')
+//     }
+// }
+
 function getLocalStorageProducts() {
-    return JSON.parse(localStorage.getItem('products')) || [];
+    //return JSON.parse(localStorage.getItem('products')) || [];
+    const productsString = localStorage.getItem('products');
+    if (productsString) {
+        const productsArray = JSON.parse(productsString);
+        return productsArray.map(productsString => JSON.parse(productsString));
+    } else {
+        return [];
+    }
 }
 
 function saveProducts(products) {
@@ -76,7 +106,6 @@ function alterProduct(productID, produtoAlterado) {
 }
 
 
-
 function delProduto(produto) {
     try {
         let produtoJson = JSON.stringify(produto);
@@ -93,7 +122,6 @@ function delProduto(produto) {
 }
 
 
-//TODO: function (listarProduto): ja feita em renderProdutos
 //TODO: function (listarDetalhesProduto)
 //TODO: function (atualizarProduto)
 
@@ -111,8 +139,11 @@ function loadProdutos(produtos) {
           <p><strong>Nome:</strong> ${produto.nome}</p>
           <p><strong>Categoria:</strong> ${produto.categoria}</p>
           <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
-          <p><strong>Preço:</strong> $${produto.preco.toFixed(2)}</p>
+          <p><strong>Preço:</strong> $${Number(produto.preco).toFixed(2)}</p>
           <button onclick="alterarProduto(${produto})" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
+<!--          <input class="modal-state" id="modal-1" type="checkbox" />-->
+          
+
         `;
 
         produtoDiv.innerHTML = conteudoProduto;
@@ -163,38 +194,10 @@ function mapProduto() {
 }
 
 
-const arrayDeProdutos = [
-    {
-        id: 0,
-        src: "https://picsum.photos/200/300?random=1",
-        nome: 'Produto 1',
-        categoria: 'Eletrônicos',
-        quantidade: 5,
-        preco: 99.99
-    },
-    {
-        id: 1,
-        src: "https://picsum.photos/200/300?random=2",
-        nome: 'Produto 2',
-        categoria: 'Roupas',
-        quantidade: 10,
-        preco: 49.99
-    },
-    {
-        id: 2,
-        src: "https://picsum.photos/200/300?random=3",
-        nome: 'Produto 3',
-        categoria: 'Livros',
-        quantidade: 20,
-        preco: 19.99
-    },
-];
-
-
 document.getElementById('addProduct').onclick = mapProduto;
 
-loadProdutos(arrayDeProdutos);
-
+loadProdutos(getLocalStorageProducts());
+localStorage.clear();
 
 
 
