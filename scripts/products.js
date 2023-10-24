@@ -103,18 +103,23 @@ function getLocalStorageProducts() {
  */
 function saveProducts(products) {
     localStorage.setItem('products', JSON.stringify(products));
+    let arrayProducts = products ? JSON.stringify(products) : []; //passando stringify duas vezes
+    console.log(products);
+    localStorage.setItem('products', JSON.stringify(arrayProducts));
+    // localStorage.setItem('products', JSON.stringify(products));
 }
 
 function openEditModal() {
-    document.getElementById('myEditModal').style.display='flex';
+    document.getElementById('myEditModal').style.display = 'flex';
 }
 
 function closeModal() {
     const modalCheckbox = document.getElementById('modal-1');
     modalCheckbox.checked = false;
 }
+
 function closeEditModal() {
-    document.getElementById('myEditModal').style.display='none';
+    document.getElementById('myEditModal').style.display = 'none';
 }
 
 /**
@@ -122,30 +127,53 @@ function closeEditModal() {
  * @param productID id do produto a ser alterado para busca e escrita
  */
 function alterProduct(productID) {
-    let product = getLocalStorageProducts().find(p => p.id ===productID)
+    let product = getLocalStorageProducts().find(p => p.id === productID)
     // document.getElementById('editProductId').value = productID;
     document.getElementById('editProductName').value = product.nome;
     document.getElementById('editProductQuantity').value = product.quantidade;
-    // document.getElementById('editProductCategory').value = product.categoria; //nao rola trocar categoria!
+    document.getElementById('editProductCategory').value = product.categoria; //esá sendo usado hidden no html
     document.getElementById('editProductPrice').value = product.preco;
     document.getElementById('editProductImage').value = product.src;
     openEditModal(); //TODO teste
 }
 
-function saveProductChanges(){
+function saveProductChanges() {
     // alert('aqui!');
-    const novoProduto = {
-        id: document.getElementById('editProductId').value,
-        src: document.getElementById('editProductImage').value,
-        nome: document.getElementById('editProductName').value,
-        // categoria: document.getElementById('editProductCategory').value,
-        quantidade: document.getElementById('editProductQuantity').value,
-        preco: document.getElementById('editProductPrice').value,
-        datasModificacao: new Date()
-    };
-    addProduto(novoProduto); //TODO check if this works
-    pushNotify('Produto Modificado!');
+
+    try {
+        const novoProduto = {
+            id: document.getElementById('editProductId').value,
+            src: document.getElementById('editProductImage').value,
+            nome: document.getElementById('editProductName').value,
+            // categoria: document.getElementById('editProductCategory').value,
+            quantidade: document.getElementById('editProductQuantity').value,
+            preco: document.getElementById('editProductPrice').value,
+            datasModificacao: new Date()
+        };
+        updateLocalStorageProduct(novoProduto);
+        //TODO: check if categoria is passing
+        pushNotify('Produto Modificado!');
+        closeEditModal();
+        // this.window.location.reload();
+    } catch (e) {
+        console.log(e.message);
+    }
 }
+
+
+function updateLocalStorageProduct(product) {
+    try {
+        let allProducts = getLocalStorageProducts();
+        let productIndex = allProducts.findIndex(p => p === product);
+        allProducts[productIndex] = product;
+        allProducts[productIndex].datasModificacao = new Date;
+        localStorage.setItem('products', JSON.stringify(allProducts));
+        saveProducts(allProducts);
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+
 
 //TODO: testar delProduto, fazer botão de deletar
 /**
@@ -175,7 +203,7 @@ function loadProdutos(produtos) { //TODO check this function and compare to mano
     const produtosDiv = document.getElementById('produtos');
     produtosDiv.innerHTML = '';
 
-    if(produtos.length === 0) {
+    if (produtos.length === 0) {
         produtosDiv.innerHTML = '<p>Nenhum produto cadastrado</p>';
     }
 
@@ -205,37 +233,6 @@ function loadProdutos(produtos) { //TODO check this function and compare to mano
     });
 }
 
-//TODO: testar alterarProduto, fazer botão de alterar
-function alterarProduto(produto) {
-
-    // alert('aqui!!');
-    const modal = document.createElement('div');
-    modal.classList.add('modalContent');
-    modal.id = 'modalContent';
-    modal.hidden = false; // Display the modal
-    modal.innerHTML = `
-    <input class="modal-state" id="modal-1" type="checkbox" />
-    <div class="modal">
-      <label class="modal__bg" for="modal-1"></label>
-      <div class="modal__inner" style="display: flex; flex-direction: column">
-        <label class="modal__close" for="modal-1"></label>
-        <h2>Adicionar produto</h2>
-          <input type="url" id="URLImagem" placeholder="URL imagem">
-          <input type="text" id="productName" placeholder="Nome do Produto">
-          <input type="text" id="productCategoria" placeholder="Categoria">
-          <input type="text" id="productQuantidade" placeholder="Quantidade Disponível">
-          <input type="number" id="productPreco" placeholder="Preço">
-<!--          <button onclick="alterProduct(${produto.id})" id="addProduct" style="flex-shrink: initial; max-width: fit-content">Alterar</button>-->
-          <button onclick="alterProduct(${produto.id})" id="alterProduct" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
-      </div>
-    `;
-    //TODO preciso mandar renderizar o modal aqui, certo?
-    openEditModal();
-
-    // document.getElementById();
-    // document.body.appendChild(modal);
-
-}
 
 /**
  * Busca os campos no modal de adicionar produtos e mapeia os atributos em um novo produto.
@@ -259,6 +256,7 @@ function mapProduto() {
     };
     addProduto(novoProduto);
 }
+
 //seleciona botão de adicionar produto
 const addProductButton = document.getElementById('addProduct');
 
