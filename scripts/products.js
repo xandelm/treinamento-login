@@ -143,8 +143,6 @@ function alterProduct(productID) {
 }
 
 function saveProductChanges() {
-    alert("aqui!");
-
     try {
         const novoProduto = {
             id: document.getElementById("editProductId").value,
@@ -169,7 +167,7 @@ function updateLocalStorageProduct(product) {
     try {
         let allProducts = getLocalStorageProducts();
         let productIndex = allProducts.findIndex((p) => p.id == product.id);
-        console.log("productIndex", productIndex);
+        // console.log("productIndex", productIndex);
         allProducts[productIndex] = product;
         allProducts[productIndex].datasModificacao = new Date();
 
@@ -179,24 +177,61 @@ function updateLocalStorageProduct(product) {
     }
 }
 
+function deleteLocalProduct(productID) {
+    try{
+        let allProducts = getLocalStorageProducts();
+        let productIndex = allProducts.findIndex((p) => p.id == productID);
+        allProducts.splice(productIndex,1);
+        saveProducts(allProducts);
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+
 //TODO: testar delProduto, fazer botão de deletar
 /**
  * Busca e deleta um produto no LocalStorage
- * @param produto produto Object a ser deletado
+ * @param productID id do produto a ser deletado
  */
-function delProduto(produto) {
+function delProduto(productID) {
     try {
-        let produtoJson = JSON.stringify(produto);
-        let allProducts = localStorage.getItem("products");
-        if (!allProducts.includes(produtoJson)) console.log("Não existe!");
-        allProducts.replace(produtoJson, "");
-        //precisa deletar? localStorage.remove
-        localStorage.setItem("products", allProducts);
-        pushNotify("Produto deletado");
+
+        Swal.fire({
+            title: 'Tem certeza que quer deletar este produto?',
+            text: "Isso não poderá ser revertido",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, deletar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteLocalProduct(productID);
+                Swal.fire(
+                    'Deletado!',
+                    'O produto foi deletado',
+                    'success'
+                )
+
+            }
+        })
+
     } catch (e) {
-        console.log("Erro:" + e.message);
-        pushNotifyError(e.message);
+        alert(e.message);
     }
+    // try {
+    //     let produtoJson = JSON.stringify(produto);
+    //     let allProducts = localStorage.getItem("products");
+    //     if (!allProducts.includes(produtoJson)) console.log("Não existe!");
+    //     allProducts.replace(produtoJson, "");
+    //     //precisa deletar? localStorage.remove
+    //     localStorage.setItem("products", allProducts);
+    //     pushNotify("Produto deletado");
+    // } catch (e) {
+    //     console.log("Erro:" + e.message);
+    //     pushNotifyError(e.message);
+    // }
 }
 
 /**
@@ -225,10 +260,10 @@ function loadProdutos(produtos) {
           <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
           <p><strong>Preço:</strong> $${Number(produto.preco).toFixed(2)}</p>
 <!--          <button onclick="alterarProduto('${produto.id
-            }')" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>-->
+        }')" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>-->
           <button onclick="alterProduct('${produto.id
-            }')" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
-          <button onclick="delProduto(${produto})" id="delProduto" style="flex-shrink: initial; max-width: fit-content; background-color: red">Deletar</button>
+        }')" id="alterarProduto" style="flex-shrink: initial; max-width: fit-content">Alterar</button>
+          <button onclick="delProduto(${produto.id})" id="delProduto" style="flex-shrink: initial; max-width: fit-content; background-color: red">Deletar</button>
 
 <!--          <input class="modal-state" id="modal-1" type="checkbox" />-->
           
@@ -271,14 +306,15 @@ function generateId(stringProduto) {
     // return "_" + Math.random().toString(36).substring(2, 9);
     let hash = 0;
     let i, ch;
-    if(stringProduto.length === 0) return hash;
-    for(i = 0; i < stringProduto.length; i++){
+    if (stringProduto.length === 0) return hash;
+    for (i = 0; i < stringProduto.length; i++) {
         ch = stringProduto.charCodeAt(i);
         hash = ((hash << 5) + hash) + ch;
         hash = hash & hash;
     }
-    return hash;
+    return hash.toString();
 }
+
 loadProdutos(getLocalStorageProducts()); //renderiza os produtos na página
 
 // localStorage.clear()
