@@ -79,10 +79,6 @@ function addProduto(produto) {
 }
 
 /**
- * Seleciona o modal no documento e o fecha
- */
-
-/**
  * Busca todos os produtos armazenados no localstorage
  *
  * @return {[]} array de produtos buscados no localstorage. Array vazio se não existirem produtos
@@ -112,9 +108,17 @@ function saveProducts(products) {
     // localStorage.setItem('products', JSON.stringify(products));
 }
 
+/**
+ * Seleciona o modal no documento e o abre
+ */
+
 function openEditModal() {
     document.getElementById("myEditModal").style.display = "flex";
 }
+
+/**
+ * Seleciona o modal no documento e o fecha
+ */
 
 function closeModal() {
     const modalCheckbox = document.getElementById("modal-1");
@@ -142,6 +146,11 @@ function alterProduct(productID) {
     openEditModal(); //TODO teste
 }
 
+
+/**
+ * Seleciona as mudanças da edição do modal de edição para salvamento na função updateLocalStorage
+ */
+
 function saveProductChanges() {
     try {
         const novoProduto = {
@@ -163,6 +172,11 @@ function saveProductChanges() {
     }
 }
 
+/**
+ * Atualiza as informações do produto passado para o LocalStorage
+ * @param product produto com informações atualizadas
+ */
+
 function updateLocalStorageProduct(product) {
     try {
         let allProducts = getLocalStorageProducts();
@@ -177,6 +191,10 @@ function updateLocalStorageProduct(product) {
     }
 }
 
+/**
+ * Deleta produto do localStorage
+ * @param productID id do produto a ser deletado
+ */
 function deleteLocalProduct(productID) {
     try{
         let allProducts = getLocalStorageProducts();
@@ -190,7 +208,7 @@ function deleteLocalProduct(productID) {
 
 //TODO: testar delProduto, fazer botão de deletar
 /**
- * Busca e deleta um produto no LocalStorage
+ * Exibe uma mensagem de confirmação para deleção do produto e chama @function deleteLocalProduct caso confirmada intenção de deletar
  * @param productID id do produto a ser deletado
  */
 function delProduto(productID) {
@@ -302,11 +320,15 @@ function mapProduto() {
 }
 
 
+/**
+ * @param {string} stringProduto produto a ser baseado a geração do id, em formato de string
+ * @return {string} numero de hash em formato de string
+ */
 function generateId(stringProduto) {
     // return "_" + Math.random().toString(36).substring(2, 9);
     let hash = 0;
     let i, ch;
-    if (stringProduto.length === 0) return hash;
+    if (stringProduto.length === 0) return hash.toString();
     for (i = 0; i < stringProduto.length; i++) {
         ch = stringProduto.charCodeAt(i);
         hash = ((hash << 5) + hash) + ch;
