@@ -139,3 +139,18 @@ p img {
     float: left;
     margin: 0 1em 1em 0;
 }
+
+.produtos {
+    display: flex;
+    flex-direction: row;
+}
+.div {
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+.produto {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 0.3rem;
+    margin-left: 0.3rem;
+}
