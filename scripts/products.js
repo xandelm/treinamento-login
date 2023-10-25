@@ -219,7 +219,7 @@ function loadProdutos(produtos) {
 
         const conteudoProduto = `
           <img src="${produto.src}">
-          <p><strong>id:</strong> ${produto.id}</p>
+          <p style="display: none"><strong>id:</strong> ${produto.id}</p>
           <p><strong>Nome:</strong> ${produto.nome}</p>
           <p><strong>Categoria:</strong> ${produto.categoria}</p>
           <p><strong>Quantidade:</strong> ${produto.quantidade}</p>
