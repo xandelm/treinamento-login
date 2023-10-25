@@ -148,7 +148,7 @@ function saveProductChanges() {
             id: document.getElementById("editProductId").value,
             src: document.getElementById("editProductImage").value,
             nome: document.getElementById("editProductName").value,
-            // categoria: document.getElementById('editProductCategory').value,
+            categoria: document.getElementById('editProductCategory').value,
             quantidade: document.getElementById("editProductQuantity").value,
             preco: document.getElementById("editProductPrice").value,
             datasModificacao: new Date(),
