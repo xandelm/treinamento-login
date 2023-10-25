@@ -2,79 +2,81 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Produtos</title>
-  <script src="scripts/products.js" defer></script>
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <link href="css/modal.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Produtos</title>
+    <script src="scripts/products.js" defer></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/modal.css" rel="stylesheet" type="text/css"/>
 
-  <!--  simple-notify-->
-  <!-- CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css" />
+    <!--  simple-notify-->
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css"/>
 
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.js"></script>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.js"></script>
 
 
 </head>
 
 <body class="productsPage">
-  <div id="produtos-card">
+<div id="produtos-card">
     <h1>Produtos</h1>
     <div style="padding: 2rem; margin-bottom: 3rem">
-      <label class="btn" for="modal-1">Adicionar novo produto</label>
+        <label class="btn" for="modal-1">Adicionar novo produto</label>
     </div>
 
     <div id="produtos" class="produtos"></div>
 
-    <input class="modal-state" id="modal-1" type="checkbox" />
+    <input class="modal-state" id="modal-1" type="checkbox"/>
     <div class="modal">
-      <label class="modal__bg" for="modal-1"></label>
-      <div class="modal__inner" style="display: flex; flex-direction: column">
-        <button class="modal__close" for="modal-1" onclick="closeModal()"></button>
-        <h2>Adicionar produto</h2>
-        <input type="url" id="URLImagem" placeholder="URL imagem">
-        <input type="text" id="productName" placeholder="Nome do Produto">
-        <input type="text" id="productCategoria" placeholder="Categoria">
-        <input type="text" id="productQuantidade" placeholder="Quantidade Disponível">
-        <input type="number" id="productPreco" placeholder="Preço">
-        <button onclick="mapProduto()" id="addProduct"
-          style="flex-shrink: initial; max-width: fit-content">Adicionar</button>
-      </div>
+        <label class="modal__bg" for="modal-1"></label>
+        <div class="modal__inner" style="display: flex; flex-direction: column">
+            <button class="modal__close" for="modal-1" onclick="closeModal()"></button>
+            <h2>Adicionar produto</h2>
+        <form id="addProduct-form" style="display: flex; flex-direction: column" >
+                <input type="url" id="URLImagem" placeholder="URL imagem">
+                <input type="text" id="productName" placeholder="Nome do Produto">
+                <input type="text" id="productCategoria" placeholder="Categoria">
+                <input type="text" id="productQuantidade" placeholder="Quantidade Disponível">
+                <input type="number" id="productPreco" placeholder="Preço">
+                <button onclick="mapProduto()" id="addProduct" style="flex-shrink: initial; max-width: fit-content">Adicionar
+                </button>
+            </form>
+        </div>
     </div>
 
 
     <div id="myEditModal" class="editModal" style="">
-      <div class="MyEditModal-content">
-        <span class="close" onclick="closeEditModal()">&times;</span>
-        <h2>Adicionar Produto</h2>
-        <form id="product-form" style="display: flex; flex-direction: column">
-          <input type="hidden" id="editProductId">
-          <label for="editProductName">Nome do Produto:</label>
-          <input type="text" id="editProductName">
-          <input type="hidden" id="editProductCategory">
-          <!--          <label for="editProductCategory">Categoria:</label> não rola alterar categoria!-->
-          <!--          <select id="editProductCategory" required>-->
-          <!--            <option value="eletronicos">Eletrônicos</option>-->
-          <!--            <option value="roupas">Roupas</option>-->
-          <!--            <option value="livros">Livros</option>-->
-          <!--            <option value="transporte">Transporte</option>-->
-          <!--          </select>-->
-          <label for="editProductQuantity">Quantidade:</label>
-          <input type="number" id="editProductQuantity">
-          <label for="editProductPrice">Preço:</label>
-          <input type="number" id="editProductPrice" step="0.01">
-          <label for="editProductPrice">Foto:</label>
-          <label for="editProductImage"></label>
-          <input type="text" id="editProductImage">
-          <button type="button" onclick="saveProductChanges()">Alterar</button>
-        </form>
-      </div>
+        <div class="MyEditModal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Adicionar Produto</h2>
+            <form id="product-form" style="display: flex; flex-direction: column">
+                <input type="hidden" id="editProductId">
+                <label for="editProductName">Nome do Produto:</label>
+                <input type="text" id="editProductName">
+                <input type="hidden" id="editProductCategory">
+                <!--          <label for="editProductCategory">Categoria:</label> não rola alterar categoria!-->
+                <!--          <select id="editProductCategory" required>-->
+                <!--            <option value="eletronicos">Eletrônicos</option>-->
+                <!--            <option value="roupas">Roupas</option>-->
+                <!--            <option value="livros">Livros</option>-->
+                <!--            <option value="transporte">Transporte</option>-->
+                <!--          </select>-->
+                <label for="editProductQuantity">Quantidade:</label>
+                <input type="number" id="editProductQuantity">
+                <label for="editProductPrice">Preço:</label>
+                <input type="number" id="editProductPrice" step="0.01">
+                <label for="editProductPrice">Foto:</label>
+                <label for="editProductImage"></label>
+                <input type="text" id="editProductImage">
+                <button type="button" onclick="saveProductChanges()">Alterar</button>
+            </form>
+        </div>
     </div>
     <!--    //deixar o modal da internet intacto e usar o modal do manoel para o edit-->
 
-  </div>
+</div>
 </body>
 
 </html>

@@ -67,7 +67,9 @@ function addProduto(produto) {
         console.log("Produtos: " + JSON.stringify(arrayProducts)); //teste
         loadProdutos(getLocalStorageProducts());
 
-        pushNotify("Produto Adicionado"); //TODO: fix. not working.
+        pushNotify("Produto Adicionado");
+        document.getElementById('addProduct-form').reset();
+        closeModal();
         return true;
     } catch (e) {
         console.log("Erro ao adicionar produto: " + e.message);
@@ -251,7 +253,7 @@ function mapProduto() {
     const precoElement = document.getElementById("productPreco");
 
     const novoProduto = {
-        id: generateId(),
+        id: 0,
         src: urlElement.value,
         nome: nomeElement.value,
         categoria: categoriaElement.value,
@@ -260,12 +262,22 @@ function mapProduto() {
         dataCriacao: new Date(),
         datasModificacao: [],
     };
+    novoProduto.id = generateId(JSON.stringify(novoProduto));
     addProduto(novoProduto);
 }
 
 
-function generateId() {
-    return "_" + Math.random().toString(36).substr(2, 9);
+function generateId(stringProduto) {
+    // return "_" + Math.random().toString(36).substring(2, 9);
+    let hash = 0;
+    let i, ch;
+    if(stringProduto.length === 0) return hash;
+    for(i = 0; i < stringProduto.length; i++){
+        ch = stringProduto.charCodeAt(i);
+        hash = ((hash << 5) + hash) + ch;
+        hash = hash & hash;
+    }
+    return hash;
 }
 loadProdutos(getLocalStorageProducts()); //renderiza os produtos na página
 
